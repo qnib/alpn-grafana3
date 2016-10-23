@@ -6,8 +6,8 @@
         "tags": ["http", "v3"],
         "port": 3000,
         "checks": [{
-            "script": "supervisorctl status|egrep 'grafana3.*RUNNING' || supervisorctl status grafana",
-            "interval": "10s"
+            "script": "/opt/qnib/grafana/bin/healthcheck.sh",
+            "interval": "5s"
         }]
     }
   ]
