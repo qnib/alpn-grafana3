@@ -25,3 +25,5 @@ ADD opt/qnib/grafana/sql/data-sources/prometheus.sql \
 ADD opt/qnib/grafana/sql/dashboards/docker-stats.sql \
     opt/qnib/grafana/sql/dashboards/prometheus.sql \
     /opt/qnib/grafana/sql/dashboards/
+HEALTHCHECK --interval=5s --retries=12 --timeout=2s \
+    CMD /opt/qnib/grafana/bin/healthcheck.sh
