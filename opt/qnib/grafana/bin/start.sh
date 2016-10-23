@@ -7,7 +7,9 @@ SQL_PATH=${GRAFANA_SQL_PATH-/opt/qnib/grafana/sql}
 mkdir -p /var/lib/grafana
 ## Common SQL to get started
 for db in $(ls ${SQL_PATH} |sort);do
-    cat ${SQL_PATH}/${db} | sqlite3 ${DB_PATH}
+    if [ -f ${SQL_PATH}/${db} ];then
+        cat ${SQL_PATH}/${db} | sqlite3 ${DB_PATH}
+    fi
 done
 ## data sources
 if [ "X${GRAFANA_DATA_SOURCES}" != "X" ];then
@@ -22,14 +24,9 @@ if [ "X${GRAFANA_DATA_SOURCES}" != "X" ];then
 fi
 
 ### inserts dashboards
-DASH_PATH=${GRAFANA_DASH_PATH-/opt/qnib/grafana/dashboards/}
-DASH_TIME=$(date +"%F %H:%M:%S")
-for dash in $(find ${DASH_PATH} -name \*.json);do
-    echo $dash
-    DASH_TITLE=$(jq '.title' $dash |sed -e 's/"//g')
-    DASH_SLUG=$(echo $dash |awk -F/ '{print $NF}' | sed -e 's/\.json$//')
-    DASH_DATA=$(jq -c "." ${dash})
-    sqlite3 ${DB_PATH} "INSERT INTO dashboard (created, updated, version, slug, title, org_id, data) VALUES ('${DASH_TIME}', '${DASH_TIME}', '0', '${DASH_SLUG}', '${DASH_TITLE}','1','${DASH_DATA}');"
+for dash in $(ls ${SQL_PATH}/dashboards/);do
+    echo "[INFO] Parse '${SQL_PATH}/dashboards/${dash}'"
+    cat ${SQL_PATH}/dashboards/${dash} | sqlite3 /var/lib/grafana/grafana.db
 done
 
 sleep 1
