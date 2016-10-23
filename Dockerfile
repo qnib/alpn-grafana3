@@ -9,7 +9,9 @@ RUN apk --no-cache add sqlite openssl curl \
 ADD etc/supervisord.d/grafana.ini /etc/supervisord.d/
 ADD etc/grafana/grafana.ini /etc/grafana/grafana.ini
 ADD etc/consul.d/grafana.json /etc/consul.d/
-ADD opt/qnib/grafana/bin/start.sh /opt/qnib/grafana/bin/
+ADD opt/qnib/grafana/bin/start.sh \
+    opt/qnib/grafana/bin/healthcheck.sh \
+    /opt/qnib/grafana/bin/
 ## SQL dumps to setup /var/lib/grafana/grafana.db
 ADD opt/qnib/grafana/sql/00-migration_log.sql \
     opt/qnib/grafana/sql/10-user.sql \
