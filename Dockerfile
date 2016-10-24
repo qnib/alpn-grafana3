@@ -1,7 +1,7 @@
 FROM qnib/alpn-jre8
 
 ARG GRAFANA_VER=3.1.1-1470047149
-ENV GRAFANA_DATA_SOURCES=qcollect,prometheus
+ENV GRAFANA_DATA_SOURCES=qcollect,elasticsearch
 
 RUN apk --no-cache add sqlite openssl curl \
  && wget -qO - https://grafanarel.s3.amazonaws.com/builds/grafana-${GRAFANA_VER}.linux-x64.tar.gz |tar xfz - -C /opt/ \
@@ -20,6 +20,7 @@ ADD opt/qnib/grafana/sql/00-migration_log.sql \
     opt/qnib/grafana/sql/40-backend.sql \
     /opt/qnib/grafana/sql/
 ADD opt/qnib/grafana/sql/data-sources/prometheus.sql \
+    opt/qnib/grafana/sql/data-sources/elasticsearch.sql \
     opt/qnib/grafana/sql/data-sources/qcollect.sql \
     /opt/qnib/grafana/sql/data-sources/
 ADD opt/qnib/grafana/sql/dashboards/docker-stats.sql \
