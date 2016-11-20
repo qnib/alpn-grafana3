@@ -24,5 +24,6 @@ ADD opt/qnib/grafana/sql/data-sources/prometheus.sql \
     opt/qnib/grafana/sql/data-sources/qcollect.sql \
     /opt/qnib/grafana/sql/data-sources/
 ADD opt/qnib/grafana/sql/dashboards/docker-stats.sql \
+    opt/qnib/grafana/sql/dashboards/docker-engine.sql \
     opt/qnib/grafana/sql/dashboards/prometheus.sql \
     /opt/qnib/grafana/sql/dashboards/
